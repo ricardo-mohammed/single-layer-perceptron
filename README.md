@@ -12,7 +12,6 @@ This repository contains our implementation of the Single Layer Perceptron (SLP)
 | Senay Teweldebrhan   | 9120588 |
 | Ricardo Mohammed     | 7500382 |
 
-*(Note: Please update the table above with actual team member names and student IDs.)*
 
 ## Prerequisites
 - Python 3.8 or higher
