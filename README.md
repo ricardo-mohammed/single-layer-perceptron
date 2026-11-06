@@ -73,6 +73,15 @@ jupyter notebook SingleLayerPerceptrons_Workshop-solution.ipynb
 5. **Linear Separability:** Understanding perceptron limitations (XOR problem).
 6. **Real-world Application:** Canada's Wonderland Case Study.
 
+## 💬 Discussion Talking Points
+
+As a group, we explored the foundational mechanics of Artificial Neural Networks through the lens of the Single Layer Perceptron. Here are our key takeaways and talking points from the workshop:
+
+* **The Perceptron as a Decision Maker:** A single neuron mimics biological decision-making by calculating a weighted sum of its inputs, adding a bias, and passing the result through an activation function (like the Step or Sigmoid function). This allows the model to output a clear binary decision or a probability score.
+* **The Power of Inhibition (Negative Weights):** We learned that weights don't just amplify signals; they can also inhibit them. By assigning a negative weight to a specific input (e.g., a "long queue" at Canada's Wonderland), the perceptron can effectively model complex logic gates, such as "A AND NOT B".
+* **How Machines "Learn" (Error & Weight Updates):** The core of the perceptron learning algorithm lies in its error calculation ($E = y - \hat{y}$). By comparing the predicted output to the actual label, the network calculates the error and updates its weights proportionally. This iterative process allows the model to gradually minimize its loss and improve its accuracy over time.
+* **Real-World Application (Canada's Wonderland Case Study):** We successfully translated a qualitative, real-world scenario (deciding whether to go to an amusement park based on weather, queue length, and health) into a quantitative mathematical model. This highlighted how machine learning requires us to carefully engineer and binarize real-world features before feeding them into a network.
+
 ## Dependencies
 The project requires the following Python libraries (all listed in `requirements.txt`):
 - `torch` (PyTorch)
