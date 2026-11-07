@@ -26,25 +26,60 @@ git clone <repository-url>
 cd <repository-folder>
 ```
 
+## 🛠️ Installation Instructions
+
+### Prerequisites
+
+This project requires **Python 3.12** (3.11 or 3.13 also work). TensorFlow 2.20.0 does **not** support Python 3.14, so the setup below verifies your Python version before creating the environment.
+
+### 1. Verify Your Python Version
+
+**Windows (Bash in VSCode):**
+
+    py -3.12 --version
+
+If this fails, install Python 3.12 first:
+
+    winget install Python.Python.3.12
+
+Then restart your terminal and run the version check again.
+
+**macOS/Linux:**
+
+    python3.12 --version
+
+If this fails, install Python 3.12 (e.g., `brew install python@3.12` on macOS, or `sudo apt install python3.12` on Ubuntu), then run the version check again.
+
+You should see `Python 3.12.x` printed. **Do not proceed if the version shown is 3.14 or higher.**
+
 ### 2. Create and Activate Virtual Environment
 
 **Windows:**
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-```
+
+    py -3.12 -m venv .venv
+    source .venv/Scripts/activate
 
 **macOS/Linux:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
+
+    python3.12 -m venv .venv
+    source .venv/bin/activate
+
+**Confirm the virtual environment is using Python 3.12:**
+
+    python --version
+
+This must print `Python 3.12.x`. If it shows a different version, delete the `.venv` folder and repeat this step.
 
 ### 3. Install Dependencies
-```bash
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
+
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+
+### 4. Verify the TensorFlow Installation
+
+    python -c "import tensorflow as tf; print('TensorFlow', tf.__version__)"
+
+This should print the TensorFlow version without any errors.
 
 ## Project Structure
 ```text
@@ -72,14 +107,48 @@ jupyter notebook SingleLayerPerceptrons_Workshop-solution.ipynb
 5. **Linear Separability:** Understanding perceptron limitations (XOR problem).
 6. **Real-world Application:** Canada's Wonderland Case Study.
 
-## 💬 Discussion Talking Points
+## 🧠 Key Concepts: The Single-Neuron ANN
 
-As a group, we explored the foundational mechanics of Artificial Neural Networks through the lens of the Single Layer Perceptron. Here are our key takeaways and talking points from the workshop:
+Our prostate cancer prediction example, while simple, demonstrates the fundamental mechanics of a single artificial neuron. Here are the core takeaways:
 
-* **The Perceptron as a Decision Maker:** A single neuron mimics biological decision-making by calculating a weighted sum of its inputs, adding a bias, and passing the result through an activation function (like the Step or Sigmoid function). This allows the model to output a clear binary decision or a probability score.
-* **The Power of Inhibition (Negative Weights):** We learned that weights don't just amplify signals; they can also inhibit them. By assigning a negative weight to a specific input (e.g., a "long queue" at Canada's Wonderland), the perceptron can effectively model complex logic gates, such as "A AND NOT B".
-* **How Machines "Learn" (Error & Weight Updates):** The core of the perceptron learning algorithm lies in its error calculation ($E = y - \hat{y}$). By comparing the predicted output to the actual label, the network calculates the error and updates its weights proportionally. This iterative process allows the model to gradually minimize its loss and improve its accuracy over time.
-* **Real-World Application (Canada's Wonderland Case Study):** We successfully translated a qualitative, real-world scenario (deciding whether to go to an amusement park based on weather, queue length, and health) into a quantitative mathematical model. This highlighted how machine learning requires us to carefully engineer and binarize real-world features before feeding them into a network.
+### 1. The Forward Pass: Making a Prediction
+
+The neuron processes input in two steps:
+
+- **Weighted Sum (Logit):** Each input is multiplied by a learned **weight** (representing importance) and summed with a **bias** (an offset). This produces a raw score, `z`.
+  - **Example:** `z = (1.0 × 0.4) + (0.0 × 0.2) + (1.0 × 0.3) - 0.8 = -0.1`
+
+- **Activation Function:** The raw score is passed through a **sigmoid** function, which squashes it into a range between 0 and 1. This output is interpreted as the model's **confidence**.
+  - **Example:** `σ(-0.1) ≈ 0.475` (47.5% confidence)
+
+A **threshold** (e.g., 0.5) is then applied to convert this confidence score into a final predicted class (`0` or `1`).
+
+### 2. The Backward Pass: Learning from Error
+
+This is how the model improves:
+
+- **Calculate Loss:** We quantify the error using a loss function, like **squared error**: `Loss = (true_label - predicted_value)²`
+
+- **Calculate Gradients (Backpropagation):** Using calculus (PyTorch's `autograd`), we compute the **gradient** of the loss with respect to each weight. This tells us the direction and magnitude to adjust each weight to reduce the error.
+
+- **Update Weights (Gradient Descent):** Each weight is nudged in the opposite direction of its gradient, scaled by a **learning rate (η)**:
+  `new_weight = old_weight - η × gradient`
+
+> **Analogy:** Imagine the loss as a hilly landscape. The gradient points uphill, so we step downhill (opposite direction) to find the lowest point (minimum loss).
+
+### 3. Hyperparameters vs. Learned Parameters
+
+It's crucial to distinguish between what the model **learns** and what we **set**:
+
+| **Learned by Model** | **Set by User (Hyperparameters)** |
+| :--- | :--- |
+| Weights | Learning Rate (η) |
+| Bias | Classification Threshold |
+| | Activation Function Choice |
+| | Network Architecture |
+
+- **Weights & Bias** are the internal state that changes during training.
+- **Hyperparameters** are the "knobs" we tune to control the learning process. A learning rate that is too small means slow learning; too large means the model may never converge.
 
 ## Dependencies
 The project requires the following Python libraries (all listed in `requirements.txt`):
